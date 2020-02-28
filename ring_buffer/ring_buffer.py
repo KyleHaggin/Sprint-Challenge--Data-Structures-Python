@@ -7,37 +7,49 @@ class RingBuffer:
         self.current = None
         self.storage = DoublyLinkedList()
 
+    # def initialize(self):
+    #     while self.storage.length < self.capacity:
+    #         self.storage.add_to_tail(None)
+
     def append(self, item):
         # Find/create the node
         node = self.storage
 
-        # Check if at max capacity, if true pop value from head
-        if node.length == self.capacity:
+        if self.storage.length < self.capacity:
+            # Add value to queue from tail
+            node.add_to_tail(item)
+            # Init rest of list as None
+            # self.initialize()
+            self.current = node.head
+            return
+
+        if self.storage.head == self.current:
             node.remove_from_head()
-
-        # Add value to queue from tail
-        node.add_to_tail(item)
-
-        self.current = node.tail
+            node.add_to_tail(item)
+            self.current = self.storage.tail
+        else:
+            node.remove_from_head()
+            node.add_to_tail(item)
 
     def get(self):
         # Note:  This is the only [] allowed
         list_buffer_contents = []
         # Initialize node as self.storage for easy reading
-        node = self.storage
+        node = self.current
 
         # If empty buffer, return empty list
         if self.storage.length == 0:
             return list_buffer_contents
 
-        # Run through entire buffer and add values to the list
         x = 0
         while x < self.storage.length:
-            hldr_value = node.remove_from_head()
-            list_buffer_contents.append(hldr_value)
-            node.add_to_tail(hldr_value)
+            list_buffer_contents.append(node.value)
+            node = node.next
+            if node is None:
+                node = self.storage.head
             x += 1
-
+        # Remove None values form list
+        list_buffer_contents = [i for i in list_buffer_contents if i]
         return list_buffer_contents
 
 # ----------------Stretch Goal-------------------
