@@ -88,7 +88,8 @@ for name_2 in names_2:
 
 
 end_time = time.time()
-print(f"{len(duplicates_compare)} duplicates:\n\n{', '.join(duplicates_compare)}\n\n")
+print(f"{len(duplicates_compare)} duplicates:"
+      f"\n\n{', '.join(duplicates_compare)}\n\n")
 print(f"{len(duplicates)} duplicates:\n\n{', '.join(duplicates)}\n\n")
 print(f"runtime: {end_time - start_time} seconds")
 
